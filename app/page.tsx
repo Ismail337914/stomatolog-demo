@@ -1,6 +1,24 @@
 import Image from "next/image";
+import { useState } from "react";
 
 export default function Home() {
+  const [currentImage, setCurrentImage] = useState(0);
+  const images = [
+    "https://via.placeholder.com/600x400?text=Hollywood+Smile+1",
+    "https://via.placeholder.com/600x400?text=Zubni+Implantati+2",
+    "https://via.placeholder.com/600x400?text=Izbjeljivanje+3",
+    "https://via.placeholder.com/600x400?text=Viniri+4",
+    "https://via.placeholder.com/600x400?text=Ortodoncija+5",
+  ];
+
+  const nextImage = () => {
+    setCurrentImage((prev) => (prev + 1) % images.length);
+  };
+
+  const prevImage = () => {
+    setCurrentImage((prev) => (prev - 1 + images.length) % images.length);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
@@ -20,6 +38,7 @@ export default function Home() {
             <nav className="hidden md:flex space-x-8">
               <a href="#about" className="text-gray-700 hover:text-blue-600">O nama</a>
               <a href="#services" className="text-gray-700 hover:text-blue-600">Usluge</a>
+              <a href="#gallery" className="text-gray-700 hover:text-blue-600">Naši radovi</a>
               <a href="#team" className="text-gray-700 hover:text-blue-600">Tim</a>
               <a href="#testimonials" className="text-gray-700 hover:text-blue-600">Recenzije</a>
               <a href="#contact" className="text-gray-700 hover:text-blue-600">Kontakt</a>
@@ -100,8 +119,50 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Gallery */}
+      <section id="gallery" className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900">Naši radovi</h2>
+            <p className="mt-4 text-lg text-gray-600">Pogledajte rezultate našeg rada prije i poslije</p>
+          </div>
+          <div className="relative">
+            <div className="overflow-hidden rounded-lg shadow-lg">
+              <Image
+                src={images[currentImage]}
+                alt={`Rad ${currentImage + 1}`}
+                width={600}
+                height={400}
+                className="w-full h-96 object-cover"
+              />
+            </div>
+            <button
+              onClick={prevImage}
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75"
+            >
+              ‹
+            </button>
+            <button
+              onClick={nextImage}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75"
+            >
+              ›
+            </button>
+            <div className="flex justify-center mt-4 space-x-2">
+              {images.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentImage(index)}
+                  className={`w-3 h-3 rounded-full ${index === currentImage ? 'bg-blue-600' : 'bg-gray-300'}`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Team */}
-      <section id="team" className="py-16 bg-white">
+      <section id="team" className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900">Naš stručni tim</h2>
@@ -134,18 +195,18 @@ export default function Home() {
       </section>
 
       {/* Testimonials */}
-      <section id="testimonials" className="py-16 bg-gray-50">
+      <section id="testimonials" className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900">Šta kažu naši pacijenti</h2>
             <p className="mt-4 text-lg text-gray-600">Zadovoljstvo pacijenata je naš najveći uspjeh</p>
           </div>
           <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white p-6 rounded-lg shadow-md">
+            <div className="bg-gray-50 p-6 rounded-lg shadow-md">
               <p className="text-gray-700 mb-4">"Izvanredna usluga i profesionalizam. Preporučujem svima!"</p>
               <p className="font-semibold">- Marija K.</p>
             </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
+            <div className="bg-gray-50 p-6 rounded-lg shadow-md">
               <p className="text-gray-700 mb-4">"Doktori su ljubazni, a rezultati fantastični. Hvala vam!"</p>
               <p className="font-semibold">- Petar M.</p>
             </div>
@@ -154,7 +215,7 @@ export default function Home() {
       </section>
 
       {/* Contact */}
-      <section id="contact" className="py-16 bg-white">
+      <section id="contact" className="py-16 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900">Kontaktirajte nas</h2>
